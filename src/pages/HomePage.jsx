@@ -1,5 +1,4 @@
 import { UserProvider, useUser } from "../lib/useUser";
-import { useContext } from "react";
 
 export default function HomePage() {
     const hi = useUser();

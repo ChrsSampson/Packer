@@ -2,8 +2,10 @@
 
 // use the pocket base token to validate the request
 
-// headers.bearer = token
+// headers.bearer = PB.token
 
+// verifies user token is valid and refreshes the auth expiration if valid
+// else request goes in trash
 async function auth_middleware(req, res, next) {
     const { authorization } = req.headers;
 
@@ -19,13 +21,13 @@ async function auth_middleware(req, res, next) {
         return;
     }
 
-    const body_data = { token };
-
     const result = await fetch(
         `http://localhost:8090/api/collections/users/auth-refresh`,
         {
             method: "POST",
-            body: JSON.stringify(body_data),
+            headers: {
+                authorization: `Bearer ${token}`,
+            },
         }
     );
 

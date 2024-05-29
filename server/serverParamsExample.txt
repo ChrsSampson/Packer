@@ -1,0 +1,9 @@
+create a file called serverParams.js
+
+fill it with this 
+
+export default {
+    port: 5000,
+    snipe_url: [your endpoint]
+    snipe_key: [your key]
+};

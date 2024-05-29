@@ -10,6 +10,7 @@ lerna-debug.log*
 pocketbase.exe
 pb_data
 .env
+server/serverParams.js
 
 node_modules
 dist
