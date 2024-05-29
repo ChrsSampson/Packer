@@ -1,30 +1,30 @@
 import express from "express";
-import { config } from "dotenv";
+// import * as env from "../src/lib/enVariables.js";
 import path from "path";
+import api_router from "./routes.js";
+import auth_middleware from "./auth.js";
 
-config();
+// ------------------server config------------------------
 
+// this is retarded
 const __dirname = new URL(".", import.meta.url).pathname;
+const dirname = __dirname.slice(1, __dirname.length);
 
-const dist_path = path.join(__dirname, "/dist/index.html");
+const dist_path = path.join(dirname, "..", "dist", "index.html");
 
-const port = process.env.PORT || 5000;
+const port = 5000;
 
 const app = express();
 
 app.use(express.json());
 app.use(express.static("./dist"));
 
-app.use((req, res, next) => {
-    res.sendFile("/dist/index.html");
-});
+// ---------------Routes-------------------
 
-app.use((err, req, res, next) => {
-    console.log(typeof err.status);
+app.use("/api", auth_middleware, api_router);
 
-    if (err.status === 404) {
-        res.sendFile(dist_path);
-    }
+app.use("*", (req, res, next) => {
+    res.sendFile(dist_path);
 });
 
 app.listen(port, () => {
