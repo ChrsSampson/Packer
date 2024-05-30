@@ -1,5 +1,6 @@
 import { Router } from "express";
 import params from "./serverParams.js";
+import { sendGetRequest } from "./snipeRequests.js";
 
 const router = Router();
 
@@ -7,19 +8,26 @@ const router = Router();
 router.get("/cases", async (req, res, next) => {
     const case_endpoint = `${params.snipe_url}/hardware?model_id=42&sort=last_checkout`;
 
-    const result = await fetch(case_endpoint, {
-        method: "GET",
-        headers: {
-            "content-type": "application/json",
-            Authorization: `Bearer ${params.snipe_key}`,
-        },
-    });
+    const data = await sendGetRequest(case_endpoint);
 
-    const data = await result.json();
-
-    if (result.status == 200) {
+    if (data) {
         res.json(data.rows);
     } else {
+        res.status(400).send();
+    }
+});
+
+router.get("/cases/search", async (req, res) => {
+    const { search } = req.params;
+    const search_endpoint = `${params.snipe_url}/hardware?model_id=42&search=${search}`;
+
+    const data = await sendGetRequest(search_endpoint);
+
+    if (data) {
+        console.log(data);
+        res.json(data.rows);
+    } else {
+        console.log(failed);
         res.status(400).send();
     }
 });

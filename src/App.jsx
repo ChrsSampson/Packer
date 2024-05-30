@@ -1,6 +1,5 @@
 import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
 import { ConfigProvider } from "antd";
-import { UserProvider } from "./lib/useUser.jsx";
 
 import HomePage from "./pages/HomePage.jsx";
 import LoginPage from "./pages/Login.jsx";
@@ -28,9 +27,7 @@ function App() {
     return (
         <ConfigProvider>
             <RouterProvider router={Router}>
-                <UserProvider>
-                    <Outlet />
-                </UserProvider>
+                <Outlet />
             </RouterProvider>
         </ConfigProvider>
     );

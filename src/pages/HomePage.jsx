@@ -1,15 +1,13 @@
-import { UserProvider, useUser } from "../lib/useUser";
+import useUser from "../lib/useUser";
+import CaseList from "../components/CaseList";
 
 export default function HomePage() {
-    const hi = useUser();
-
-    console.log(hi);
+    const [user] = useUser();
 
     return (
-        <UserProvider>
-            <p>
-                <h1>Home Page</h1>
-            </p>
-        </UserProvider>
+        <p>
+            <CaseList />
+            <h1>Home Page</h1>
+        </p>
     );
 }

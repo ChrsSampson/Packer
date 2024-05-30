@@ -1,30 +1,24 @@
 import pb from "./pb.js";
-import { createContext, useState, useEffect, useContext } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-const UserContext = createContext();
-
-function UserProvider({ children }) {
+function useUser() {
     const navigate = useNavigate();
+
     const [user, setUser] = useState(pb.authStore.model || null);
 
-    function signOut() {
+    function handleLogout() {
+        pb.authStore.clear();
         setUser(null);
     }
 
     useEffect(() => {
         if (!user) {
-            navigate("/login");
+            navigate("login");
         }
-        console.log(user.token);
     }, [user]);
 
-    return (
-        <UserContext.Provider value={{ user, signOut }}>
-            {children}
-        </UserContext.Provider>
-    );
+    return [user, handleLogout];
 }
 
-export { UserProvider };
-export const useUser = () => useContext(UserContext);
+export default useUser;
